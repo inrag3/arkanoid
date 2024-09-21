@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bb7b21c84b829264fbadec1512a0cb52, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -139,3 +139,4 @@ MonoBehaviour:
   ballInitialForce: {x: 100, y: 300}
   hitSound: {fileID: 8300000, guid: 3bc278d0455a9cd41a41e2a7c718e6a8, type: 3}
   loseSound: {fileID: 8300000, guid: bdf1b0f87d2046146b87166c4cb3e87f, type: 3}
+  gameData: {fileID: 11400000, guid: 987e564dfdd7b5e48815f1a91f6388c9, type: 2}

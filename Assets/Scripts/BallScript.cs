@@ -8,10 +8,11 @@ public class BallScript : MonoBehaviour
     Rigidbody2D rb;
     GameObject playerObj;
     float deltaX;
-    
+
     AudioSource audioSrc;
     public AudioClip hitSound;
     public AudioClip loseSound;
+    public GameDataScript gameData;
 
 
     void Start()
@@ -36,17 +37,28 @@ public class BallScript : MonoBehaviour
                 pos.x = playerObj.transform.position.x + deltaX;
                 transform.position = pos;
             }
+        if (!rb.isKinematic && Input.GetKeyDown(KeyCode.J))
+        {
+            var v = rb.velocity;
+            if (Random.Range(0,2) == 0)
+                v.Set(v.x - 0.1f, v.y + 0.1f);
+            else
+                v.Set(v.x + 0.1f, v.y - 0.1f);
+            rb.velocity = v;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        audioSrc.PlayOneShot(loseSound);
+        if (gameData.sound)
+            audioSrc.PlayOneShot(loseSound, 5f);
         Destroy(gameObject);
-    }
-    
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        audioSrc.PlayOneShot(hitSound);
+        playerObj.GetComponent<PlayerScript>().BallDestroyed();
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (gameData.sound)
+            audioSrc.PlayOneShot(hitSound, 5f);
+    }
 }

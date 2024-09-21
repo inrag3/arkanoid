@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2820840290885302272}
   - component: {fileID: 2820840290885302278}
   - component: {fileID: 2820840290885302273}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,9 +147,9 @@ GameObject:
   - component: {fileID: 2820840291012520677}
   - component: {fileID: 2820840291012520676}
   - component: {fileID: 2820840291012520683}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Red Block
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 2820840292546313544}
   - component: {fileID: 2820840292546313547}
   - component: {fileID: 2820840292546313546}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

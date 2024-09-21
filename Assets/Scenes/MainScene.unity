@@ -475,11 +475,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 0315bba8b28568442b88e960f80331a0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -697,6 +697,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb200dd62bbfce643b0c6a00d55ad34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 22
+  ballVelocityMult: 0.05
+  bluePrefab: {fileID: 7032017207525704197, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
+  redPrefab: {fileID: 2820840291012520679, guid: c89c8a806441e594caeac98a88ac0497, type: 3}
+  greenPrefab: {fileID: 2253054283414781897, guid: 0363cf2bf29ad294981fe9f0a40e094a, type: 3}
+  yellowPrefab: {fileID: 8663833365857712449, guid: 9c56e041387bca7458125df4b8ebbb42, type: 3}
+  ballPrefab: {fileID: 2797103746819418136, guid: 61d37ab86c8cffa45b0826b9388afc83, type: 3}
+  gameData: {fileID: 11400000, guid: 987e564dfdd7b5e48815f1a91f6388c9, type: 2}
+  pointSound: {fileID: 8300000, guid: 835c903856221c54889905dd46db3643, type: 3}
 --- !u!1 &1786779973
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,63 +817,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &1817482793
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7032017207525704197, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_Name
-      value: Blue Block
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.9637578
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.77812946
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032017207525704200, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e36d60b88bcd6e54b866300b7450830e, type: 3}
 --- !u!1 &1828794856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +967,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2071965755
 GameObject:
