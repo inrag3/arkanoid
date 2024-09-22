@@ -12,7 +12,7 @@ public class Bonus : MonoBehaviour
         _data = data;
     }
 
-    private void Awake()
+    private void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.color = _data.BackgroundColor;
@@ -25,15 +25,12 @@ public class Bonus : MonoBehaviour
         transform.position += Vector3.down * (Time.deltaTime * 1.5f);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.TryGetComponent(out IBallController ballController))
         {
             _data.ExecuteAction(ballController);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }

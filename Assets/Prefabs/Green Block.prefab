@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 2253054283414781892}
   - component: {fileID: 2253054283414781899}
   - component: {fileID: 2253054283414781898}
-  - component: {fileID: 2253054283414781893}
+  - component: {fileID: 2306312140471474430}
   m_Layer: 8
   m_Name: Green Block
   m_TagString: Block
@@ -349,7 +349,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.16, y: 0.56}
   m_EdgeRadius: 0
---- !u!114 &2253054283414781893
+--- !u!114 &2306312140471474430
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -358,9 +358,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2253054283414781897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e4a02252c4d139428d5efc4a9ed2c55, type: 3}
+  m_Script: {fileID: 11500000, guid: 2572fee235314d9690680ece5faab4dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textObject: {fileID: 2253054283256098093}
   hitsToDestroy: 2
   points: 20
+  _prefab: {fileID: 6011547509490278551, guid: 8c52f5e0f2904784a8405eb47fe0f468, type: 3}
+  _data:
+  - {fileID: 11400000, guid: 7c2bf1ddf8d369c479fc9843f1061562, type: 2}
+  - {fileID: 11400000, guid: 8159f415ced242444b48b14d0ba143aa, type: 2}
+  - {fileID: 11400000, guid: 6e742e0041ff45f42934d4c7e8552a25, type: 2}
+  - {fileID: 11400000, guid: 78a63a469e11a4d4898813312abfafa3, type: 2}
+  - {fileID: 11400000, guid: e3cfc3fcf0af0fb4f8c2e584a53cbcba, type: 2}

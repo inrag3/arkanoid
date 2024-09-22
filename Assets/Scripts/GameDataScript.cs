@@ -1,10 +1,17 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameData", menuName = "Game Data", order = 51)]
-public class GameDataScript : ScriptableObject
+public class GameDataScript : ScriptableObject, IBonusProbabilities
 {
+    private readonly Dictionary<Type, float> _bonusProbabilities = new()
+    {
+        [typeof(SpeedBonus)] = 0.5f,
+        [typeof(UpdateReserve)] = 0.1f,
+        [typeof(UpdateReserveImmediately)] = 1f,
+    };
+
     public int level = 1;
     public int balls = 6;
     public int points = 0;
@@ -13,12 +20,19 @@ public class GameDataScript : ScriptableObject
     public bool sound = true;
     public int pointsToBall = 0;
 
+    public IReadOnlyDictionary<Type, float> BonusProbabilities => _bonusProbabilities;
+
     public void Reset()
     {
         level = 1;
         balls = 6;
         points = 0;
         pointsToBall = 0;
+    }
+
+    public void SoftReset()
+    {
+        balls = 6;
     }
     
     public void Save()
@@ -40,6 +54,10 @@ public class GameDataScript : ScriptableObject
         music = PlayerPrefs.GetInt("music", 1) == 1;
         sound = PlayerPrefs.GetInt("sound", 1) == 1;
     }
-
-
 }
+
+public interface IBonusProbabilities
+{
+    public IReadOnlyDictionary<Type, float> BonusProbabilities { get; }
+}
+

@@ -86,6 +86,29 @@ public class PlayerScript : MonoBehaviour, IBallController
         }
     }
 
+    void CreateGreenBlock(GameObject prefab, float xMax, float yMax,
+        int count, int maxCount)
+    {
+        if (count > maxCount)
+            count = maxCount;
+        for (int i = 0; i < count; i++)
+        for (int k = 0; k < 20; k++)
+        {
+            var obj = Instantiate(prefab,
+                new Vector3((Random.value * 2 - 1) * xMax,
+                    Random.value * yMax, 0),
+                Quaternion.identity);
+            var collider2d = obj.GetComponent<Collider2D>();
+            if (collider2d.OverlapCollider(contactFilter.NoFilter(), colliders) == 0)
+            {
+                var block = obj.GetComponent<GreenBlockScript>();
+                block.Initialize(gameData);
+                break;
+            }
+            Destroy(obj);
+        }
+    }
+
     void CreateBlocks(GameObject prefab, float xMax, float yMax,
         int count, int maxCount)
     {
@@ -98,9 +121,12 @@ public class PlayerScript : MonoBehaviour, IBallController
                 new Vector3((Random.value * 2 - 1) * xMax,
                     Random.value * yMax, 0),
                 Quaternion.identity);
+
             if (obj.GetComponent<Collider2D>()
                     .OverlapCollider(contactFilter.NoFilter(), colliders) == 0)
+            {
                 break;
+            }
             Destroy(obj);
         }
     }
@@ -139,7 +165,7 @@ public class PlayerScript : MonoBehaviour, IBallController
         var xMax = Camera.main.orthographicSize * Camera.main.aspect * 0.85f;
         CreateBlocks(bluePrefab, xMax, yMax, level, 8);
         CreateBlocks(redPrefab, xMax, yMax, 1 + level, 10);
-        CreateBlocks(greenPrefab, xMax, yMax, 1 + level, 12);
+        CreateGreenBlock(greenPrefab, xMax, yMax, 1 + level, 12);
         CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
         CreateRangeBlueBlocks(rangeBluePrefab, xMax, yMax, level, 4);
         CreateBalls();
@@ -175,8 +201,9 @@ public class PlayerScript : MonoBehaviour, IBallController
         }
     }
 
-    public void BallDestroyed()
+    public void BallDestroyed(BallScript ball)
     {
+        _balls.Remove(ball);
         gameData.balls--;
         StartCoroutine(BallDestroyedCoroutine());
     }
@@ -201,6 +228,7 @@ public class PlayerScript : MonoBehaviour, IBallController
         {
             if (level < maxLevel)
                 gameData.level++;
+            gameData.SoftReset();
             SceneManager.LoadScene("MainScene");
         }
     }

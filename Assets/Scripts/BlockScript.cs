@@ -18,21 +18,25 @@ public class BlockScript : MonoBehaviour
             textComponent = textObject.GetComponent<TMP_Text>();
             textComponent.text = hitsToDestroy.ToString();
         }
+
         playerScript = GameObject.FindGameObjectWithTag("Player")
-            .GetComponent<PlayerScript>(); 
+            .GetComponent<PlayerScript>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        hitsToDestroy--;
+        if (hitsToDestroy == 0)
         {
-            hitsToDestroy--;
-            if (hitsToDestroy == 0)
-            {
-                Destroy(gameObject);
-                playerScript.BlockDestroyed(points);
-            }
-            else if (textComponent != null)
-                textComponent.text = hitsToDestroy.ToString();
+            Destroy();
         }
+        else if (textComponent != null)
+            textComponent.text = hitsToDestroy.ToString();
+    }
+
+    protected virtual void Destroy()
+    {
+        Destroy(gameObject);
+        playerScript.BlockDestroyed(points);
     }
 }

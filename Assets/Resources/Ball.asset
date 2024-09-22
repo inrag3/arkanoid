@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af6b370e57c34ecdb495079ebe82297b, type: 3}
-  m_Name: Slow
+  m_Script: {fileID: 11500000, guid: f3cd802fbd994a57b3172bb1f10a5aae, type: 3}
+  m_Name: Ball
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Slow
-  <BackgroundColor>k__BackingField: {r: 0.21681976, g: 1, b: 0, a: 1}
+  <Name>k__BackingField: Ball
+  <BackgroundColor>k__BackingField: {r: 0.05281806, g: 1, b: 0, a: 1}
   <TextColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
-  _multiplier: 0.9
+  _count: 1
