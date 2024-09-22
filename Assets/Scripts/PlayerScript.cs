@@ -77,7 +77,7 @@ public class PlayerScript : MonoBehaviour
 #endif
         }
 
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (Time.timeScale > 0)
                 Time.timeScale = 0;
