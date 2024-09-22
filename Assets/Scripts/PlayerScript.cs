@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : MonoBehaviour, IBallController
 {
     const int maxLevel = 30;
     [Range(1, maxLevel)] public int level = 1;
@@ -26,8 +27,8 @@ public class PlayerScript : MonoBehaviour
     AudioSource audioSrc;
     public AudioClip pointSound;
 
+    private readonly List<BallScript> _balls = new();
 
-    // Start is called before the first frame update
     void Start()
     {
         audioSrc = Camera.main.GetComponent<AudioSource>();
@@ -44,7 +45,6 @@ public class PlayerScript : MonoBehaviour
         StartLevel();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Time.timeScale > 0)
@@ -105,15 +105,21 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    void CreateBalls()
+    private void CreateBalls()
     {
         int count = 2;
         if (gameData.balls == 1)
             count = 1;
+        CreateBalls(count);
+    }
+
+    private void CreateBalls(int count)
+    {
         for (int i = 0; i < count; i++)
         {
             var obj = Instantiate(ballPrefab);
             var ball = obj.GetComponent<BallScript>();
+            _balls.Add(ball);
             ball.ballInitialForce += new Vector2(10 * i, 0);
             ball.ballInitialForce *= 1 + level * ballVelocityMult;
         }
@@ -168,7 +174,6 @@ public class PlayerScript : MonoBehaviour
             Destroy(obj);
         }
     }
-
 
     public void BallDestroyed()
     {
@@ -264,4 +269,30 @@ public class PlayerScript : MonoBehaviour
     {
         gameData.Save();
     }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        foreach (var ball in _balls)
+        {
+            ball.SetSpeedMultiplier(multiplier);
+        }
+    }
+
+    public void UpdateReserve(int value)
+    {
+        gameData.balls += value;
+    }
+
+    public void UpdateReserveImmediately(int value)
+    {
+        UpdateReserve(value);
+        CreateBalls(value);
+    }
+}
+
+public interface IBallController
+{
+    void SetSpeedMultiplier(float multiplier);
+    void UpdateReserve(int value);
+    void UpdateReserveImmediately(int value);
 }

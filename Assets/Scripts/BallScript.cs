@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallScript : MonoBehaviour
@@ -40,12 +38,17 @@ public class BallScript : MonoBehaviour
         if (!rb.isKinematic && Input.GetKeyDown(KeyCode.J))
         {
             var v = rb.velocity;
-            if (Random.Range(0,2) == 0)
+             if (Random.Range(0, 2) == 0)
                 v.Set(v.x - 0.1f, v.y + 0.1f);
             else
                 v.Set(v.x + 0.1f, v.y - 0.1f);
             rb.velocity = v;
         }
+    }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        rb.velocity *= multiplier;
     }
 
     void OnTriggerEnter2D(Collider2D other)
