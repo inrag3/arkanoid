@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -13,17 +14,14 @@ public class PlayerScript : MonoBehaviour
     public GameObject greenPrefab;
     public GameObject yellowPrefab;
     public GameObject ballPrefab;
+    public GameObject rangeBluePrefab;
 
     static Collider2D[] colliders = new Collider2D[50];
     static ContactFilter2D contactFilter = new ContactFilter2D();
     public GameDataScript gameData;
     static bool gameStarted = false;
 
-    int requiredPointsToBall
-    {
-        get { return 400 + (level - 1) * 20; }
-    }
-
+    int requiredPointsToBall => 400 + (level - 1) * 20;
 
     AudioSource audioSrc;
     public AudioClip pointSound;
@@ -137,8 +135,40 @@ public class PlayerScript : MonoBehaviour
         CreateBlocks(redPrefab, xMax, yMax, 1 + level, 10);
         CreateBlocks(greenPrefab, xMax, yMax, 1 + level, 12);
         CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
+        CreateRangeBlueBlocks(rangeBluePrefab, xMax, yMax, level, 4);
         CreateBalls();
     }
+
+    void CreateRangeBlueBlocks(GameObject prefab, float xMax, float yMax,
+        int count, int maxCount)
+    {
+        if (count > maxCount)
+            count = maxCount;
+        for (int i = 0; i < count; i++)
+        for (int k = 0; k < 20; k++)
+        {
+            var obj = Instantiate(prefab,
+                new Vector3((Random.value * 2 - 1) * xMax,
+                    Random.value * yMax, 0),
+                Quaternion.identity);
+
+            var block = obj.GetComponent<RangeBlueBlock>();
+            if (obj.GetComponent<Collider2D>()
+                    .OverlapCollider(contactFilter.NoFilter(), colliders) == 0)
+            {
+
+                float offset = Random.value * 4;
+
+                float max = Math.Max(-xMax + offset, xMax - offset);
+                float min = Math.Min(-xMax + offset, xMax - offset);
+
+                block.Initialize(min, max);
+                break;
+            }
+            Destroy(obj);
+        }
+    }
+
 
     public void BallDestroyed()
     {
