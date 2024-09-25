@@ -13,11 +13,10 @@ public class StartSceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int i = 0;
-        foreach (var k in data.topResults)
+        data.Load();
+        for (int i = 0; i < data.topResults.Count; i++)
         {
-            places[i].text = $"{k.Key} : {k.Value}";
-            i++;
+            places[i].text = $"{data.topResults[i].Item1} : {data.topResults[i].Item2}";
         }
     }
 
@@ -36,8 +35,9 @@ public class StartSceneScript : MonoBehaviour
         {
             nick = "noname";
         }
-        data.name = nick;
 
-        SceneManager.LoadScene(1);
+        data.nickName = nick;
+
+        SceneManager.LoadScene("MainScene");
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "GameData", menuName = "Game Data", order = 51)]
 public class GameDataScript : ScriptableObject, IBonusProbabilities
@@ -20,8 +21,8 @@ public class GameDataScript : ScriptableObject, IBonusProbabilities
     public bool music = true;
     public bool sound = true;
     public int pointsToBall = 0;
-    public Dictionary<string, int> topResults = new();
-    public string name = "";
+    public List<Tuple<string, int>> topResults = new();
+    public string nickName = "";
 
     public IReadOnlyDictionary<Type, float> BonusProbabilities => _bonusProbabilities;
 
@@ -46,7 +47,8 @@ public class GameDataScript : ScriptableObject, IBonusProbabilities
         PlayerPrefs.SetInt("pointsToBall", pointsToBall);
         PlayerPrefs.SetInt("music", music ? 1 : 0);
         PlayerPrefs.SetInt("sound", sound ? 1 : 0);
-        PlayerPrefs.SetString("top", string.Join(',', topResults.Select(pair => pair.Key + '-' + pair.Value).ToList()));
+        PlayerPrefs.SetString("top",
+            string.Join(',', topResults.Select(pair => pair.Item1 + '-' + pair.Item2).ToList()));
     }
 
     public void Load()
@@ -57,8 +59,11 @@ public class GameDataScript : ScriptableObject, IBonusProbabilities
         pointsToBall = PlayerPrefs.GetInt("pointsToBall", 0);
         music = PlayerPrefs.GetInt("music", 1) == 1;
         sound = PlayerPrefs.GetInt("sound", 1) == 1;
-        topResults = PlayerPrefs.GetString("top").Split(',')
-            .ToDictionary(pair => pair.Split('-')[0], pair => int.Parse(pair.Split('-')[1]));
+        topResults = PlayerPrefs.GetString("top").Split(',').Where(s => s.Length > 0).Select(pair =>
+        {
+            var d = pair.Split('-');
+            return new Tuple<string, int>(d[0], int.Parse(d[1]));
+        }).ToList();
     }
 }
 

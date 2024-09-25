@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -16,6 +19,8 @@ public class PlayerScript : MonoBehaviour, IBallController
     public GameObject yellowPrefab;
     public GameObject ballPrefab;
     public GameObject rangeBluePrefab;
+    public GameObject menu;
+    public GameObject newRecordCard;
 
     static Collider2D[] colliders = new Collider2D[50];
     static ContactFilter2D contactFilter = new ContactFilter2D();
@@ -79,10 +84,23 @@ public class PlayerScript : MonoBehaviour, IBallController
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (Time.timeScale > 0)
-                Time.timeScale = 0;
-            else
-                Time.timeScale = 1;
+            ChangePauseState();
+        }
+    }
+
+    private void ChangePauseState()
+    {
+        if (Time.timeScale > 0)
+        {
+            Cursor.visible = true;
+            Time.timeScale = 0;
+            menu.SetActive(true);
+        }
+        else
+        {
+            Cursor.visible = false;
+            menu.SetActive(false);
+            Time.timeScale = 1;
         }
     }
 
@@ -105,6 +123,7 @@ public class PlayerScript : MonoBehaviour, IBallController
                 block.Initialize(gameData);
                 break;
             }
+
             Destroy(obj);
         }
     }
@@ -127,6 +146,7 @@ public class PlayerScript : MonoBehaviour, IBallController
             {
                 break;
             }
+
             Destroy(obj);
         }
     }
@@ -188,7 +208,6 @@ public class PlayerScript : MonoBehaviour, IBallController
             if (obj.GetComponent<Collider2D>()
                     .OverlapCollider(contactFilter.NoFilter(), colliders) == 0)
             {
-
                 float offset = Random.value * 4;
 
                 float max = Math.Max(-xMax + offset, xMax - offset);
@@ -197,6 +216,7 @@ public class PlayerScript : MonoBehaviour, IBallController
                 block.Initialize(min, max);
                 break;
             }
+
             Destroy(obj);
         }
     }
@@ -216,6 +236,9 @@ public class PlayerScript : MonoBehaviour, IBallController
                 CreateBalls();
             else
             {
+                UpdateTopIfNeeded();
+                Thread.Sleep(1000);
+
                 gameData.Reset();
                 SceneManager.LoadScene("MainScene");
             }
@@ -258,6 +281,7 @@ public class PlayerScript : MonoBehaviour, IBallController
             audioSrc.PlayOneShot(pointSound, 5);
         }
     }
+
     string OnOff(bool boolVal)
     {
         return boolVal ? "on" : "off";
@@ -282,7 +306,6 @@ public class PlayerScript : MonoBehaviour, IBallController
                 " <color=white>Esc</color>-exit</size></color>",
                 OnOff(Time.timeScale > 0), OnOff(!gameData.music),
                 OnOff(!gameData.sound)), style);
-
     }
 
     void SetMusic()
@@ -315,6 +338,46 @@ public class PlayerScript : MonoBehaviour, IBallController
     {
         UpdateReserve(value);
         CreateBalls(value);
+    }
+
+    public void StartNewGame()
+    {
+        UpdateTopIfNeeded();
+        Time.timeScale = 1;
+        Thread.Sleep(1000);
+        SceneManager.LoadScene("MainScene");
+    }
+
+    public void MoveStartScreen()
+    {
+        UpdateTopIfNeeded();
+        Time.timeScale = 1;
+        Thread.Sleep(1000);
+        SceneManager.LoadScene("StartScene");
+    }
+
+    private void UpdateTopIfNeeded()
+    {
+        if (gameData.topResults.Count == 0 || gameData.points > gameData.topResults.Last().Item2)
+        {
+            newRecordCard.SetActive(true);
+            StartCoroutine(HidePanel());
+        }
+
+        gameData.topResults.Add(new(gameData.nickName, gameData.points));
+        gameData.topResults.Sort((tuple, tuple1) => tuple1.Item2.CompareTo(tuple.Item2));
+        if (gameData.topResults.Count > 5)
+        {
+            gameData.topResults.RemoveAt(gameData.topResults.Count - 1);
+        }
+
+        gameData.Save();
+    }
+
+    IEnumerator HidePanel()
+    {
+        yield return new WaitForSeconds(2f);
+        newRecordCard.SetActive(false);
     }
 }
 
