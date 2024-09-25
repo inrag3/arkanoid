@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameData", menuName = "Game Data", order = 51)]
@@ -19,6 +20,8 @@ public class GameDataScript : ScriptableObject, IBonusProbabilities
     public bool music = true;
     public bool sound = true;
     public int pointsToBall = 0;
+    public Dictionary<string, int> topResults = new();
+    public string name = "";
 
     public IReadOnlyDictionary<Type, float> BonusProbabilities => _bonusProbabilities;
 
@@ -34,7 +37,7 @@ public class GameDataScript : ScriptableObject, IBonusProbabilities
     {
         balls = 6;
     }
-    
+
     public void Save()
     {
         PlayerPrefs.SetInt("level", level);
@@ -43,8 +46,9 @@ public class GameDataScript : ScriptableObject, IBonusProbabilities
         PlayerPrefs.SetInt("pointsToBall", pointsToBall);
         PlayerPrefs.SetInt("music", music ? 1 : 0);
         PlayerPrefs.SetInt("sound", sound ? 1 : 0);
+        PlayerPrefs.SetString("top", string.Join(',', topResults.Select(pair => pair.Key + '-' + pair.Value).ToList()));
     }
-    
+
     public void Load()
     {
         level = PlayerPrefs.GetInt("level", 1);
@@ -53,6 +57,8 @@ public class GameDataScript : ScriptableObject, IBonusProbabilities
         pointsToBall = PlayerPrefs.GetInt("pointsToBall", 0);
         music = PlayerPrefs.GetInt("music", 1) == 1;
         sound = PlayerPrefs.GetInt("sound", 1) == 1;
+        topResults = PlayerPrefs.GetString("top").Split(',')
+            .ToDictionary(pair => pair.Split('-')[0], pair => int.Parse(pair.Split('-')[1]));
     }
 }
 
@@ -60,4 +66,3 @@ public interface IBonusProbabilities
 {
     public IReadOnlyDictionary<Type, float> BonusProbabilities { get; }
 }
-
